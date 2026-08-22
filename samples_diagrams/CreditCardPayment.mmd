@@ -1,0 +1,8 @@
+classDiagram
+    class CreditCardPayment {
+        - cardNumber: String
+        - cardHolder: String
+        + processPayment(double) void
+        + validateCard() boolean
+    }
+    CreditCardPayment --|> PaymentProcessor : extends

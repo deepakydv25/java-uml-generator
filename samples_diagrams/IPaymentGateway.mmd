@@ -1,0 +1,7 @@
+classDiagram
+    class IPaymentGateway {
+        <<interface>>
+        + processPayment(double) void
+        + validateCard(String) boolean
+        + refund(String) void
+    }

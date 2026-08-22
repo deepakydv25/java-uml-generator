@@ -1,0 +1,23 @@
+classDiagram
+    class PaymentService {
+        - creditCardPayment: CreditCardPayment
+        - serviceName: String
+        + processPayment(double) void
+        + validateCard(String) boolean
+        + refund(String) void
+        + setCreditCardPayment(CreditCardPayment) void
+    }
+    class IPaymentGateway {
+        <<interface>>
+        + processPayment(double) void
+        + validateCard(String) boolean
+        + refund(String) void
+    }
+    class CreditCardPayment {
+        - cardNumber: String
+        - cardHolder: String
+        + processPayment(double) void
+        + validateCard() boolean
+    }
+    PaymentService ..|> IPaymentGateway : implements
+    PaymentService --> CreditCardPayment : uses

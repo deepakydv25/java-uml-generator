@@ -4,28 +4,32 @@ import com.deepak.uml.model.*;
 import java.util.List;
 
 /**
- * Generates Mermaid class diagram syntax from UML classes.
- * Output can be used in GitHub README, documentation, etc.
+ * Generates PlantUML class diagram syntax from UML classes.
+ * Output can be used in various documentation platforms.
  *
  * Example output:
- * classDiagram
- *     class Order {
- *         - gateway: PaymentGateway
- *         + checkout() void
- *     }
+ * @startuml
+ * class Order {
+ *     - gateway: PaymentGateway
+ *     + checkout(): void
+ * }
+ * @enduml
  */
-public class MermaidGenerator implements DiagramGenerator {
+public class PlantUMLGenerator implements DiagramGenerator {
 
     /**
-     * Generates a complete Mermaid class diagram from multiple UML classes.
+     * Generates a complete PlantUML class diagram from multiple UML classes.
      *
      * @param umlClasses list of UML classes to diagram
-     * @return Mermaid class diagram syntax as String
+     * @return PlantUML class diagram syntax as String
      */
     @Override
     public String generate(List<UmlClass> umlClasses) {
         StringBuilder sb = new StringBuilder();
-        sb.append("classDiagram\n");
+        sb.append("@startuml\n");
+        sb.append("!theme plain\n");
+        sb.append("skinparam classBackgroundColor #FFFFFF\n");
+        sb.append("skinparam classBorderColor #000000\n\n");
 
         // Generate class definitions
         for (UmlClass umlClass : umlClasses) {
@@ -37,6 +41,7 @@ public class MermaidGenerator implements DiagramGenerator {
             generateRelationships(umlClass, sb);
         }
 
+        sb.append("\n@enduml\n");
         return sb.toString();
     }
 
@@ -44,39 +49,46 @@ public class MermaidGenerator implements DiagramGenerator {
      * Generates a single class definition.
      */
     private void generateClassDefinition(UmlClass umlClass, StringBuilder sb) {
-        sb.append("    class ").append(umlClass.getName()).append(" {\n");
-
-        // Add class type notation (interface, abstract, etc.)
+        // Class declaration with type
         if (umlClass.getType() == ClassType.INTERFACE) {
-            sb.append("        <<interface>>\n");
+            sb.append("interface ");
         } else if (umlClass.getType() == ClassType.ENUM) {
-            sb.append("        <<enumeration>>\n");
+            sb.append("enum ");
         } else if (umlClass.getType() == ClassType.ANNOTATION) {
-            sb.append("        <<annotation>>\n");
+            sb.append("annotation ");
+        } else {
+            sb.append("class ");
         }
+
+        sb.append(umlClass.getName()).append(" {\n");
 
         // Add fields
         for (UmlField field : umlClass.getFields()) {
-            sb.append("        ").append(field.getVisibility().getSymbol()).append(" ");
+            sb.append("    ").append(field.getVisibility().getSymbol()).append(" ");
             sb.append(field.getName()).append(": ").append(field.getType()).append("\n");
+        }
+
+        // Add separator if both fields and methods exist
+        if (!umlClass.getFields().isEmpty() && !umlClass.getMethods().isEmpty()) {
+            sb.append("    --\n");
         }
 
         // Add methods
         for (UmlMethod method : umlClass.getMethods()) {
-            sb.append("        ").append(method.getVisibility().getSymbol()).append(" ");
+            sb.append("    ").append(method.getVisibility().getSymbol()).append(" ");
             sb.append(method.getName()).append("(");
 
             // Add parameters
             List<UmlParameter> params = method.getParameters();
             for (int i = 0; i < params.size(); i++) {
                 if (i > 0) sb.append(", ");
-                sb.append(params.get(i).getType());
+                sb.append(params.get(i).getName()).append(": ").append(params.get(i).getType());
             }
 
-            sb.append(") ").append(method.getReturnType()).append("\n");
+            sb.append("): ").append(method.getReturnType()).append("\n");
         }
 
-        sb.append("    }\n");
+        sb.append("}\n\n");
     }
 
     /**
@@ -86,14 +98,14 @@ public class MermaidGenerator implements DiagramGenerator {
         for (UmlRelationship rel : umlClass.getRelationships()) {
             if (rel.getType() == RelationshipType.INHERITANCE) {
                 // Inheritance: solid arrow pointing to parent
-                sb.append("    ").append(rel.getSourceClassName())
+                sb.append(rel.getSourceClassName())
                         .append(" --|> ").append(rel.getTargetClassName())
-                        .append(" : extends\n");
+                        .append("\n");
             } else if (rel.getType() == RelationshipType.IMPLEMENTATION) {
                 // Implementation: dashed arrow pointing to interface
-                sb.append("    ").append(rel.getSourceClassName())
+                sb.append(rel.getSourceClassName())
                         .append(" ..|> ").append(rel.getTargetClassName())
-                        .append(" : implements\n");
+                        .append("\n");
             }
         }
     }
