@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Analyzes Java AST and extracts UML class information.
+ * Analyzes Java AST and extracts UML class information including relationships.
  */
 public class ClassAnalyzer {
 
@@ -60,6 +60,28 @@ public class ClassAnalyzer {
         ClassType classType = typeDecl.isInterface() ? ClassType.INTERFACE : ClassType.CLASS;
         UmlClass umlClass = new UmlClass(typeDecl.getNameAsString(), packageName, classType);
 
+        // Extract inheritance relationships
+        typeDecl.getExtendedTypes().forEach(extendedType -> {
+            String parentClassName = extendedType.getNameAsString();
+            UmlRelationship rel = new UmlRelationship(
+                    typeDecl.getNameAsString(),
+                    parentClassName,
+                    RelationshipType.INHERITANCE
+            );
+            umlClass.addRelationship(rel);
+        });
+
+        // Extract implementation relationships
+        typeDecl.getImplementedTypes().forEach(implementedType -> {
+            String interfaceName = implementedType.getNameAsString();
+            UmlRelationship rel = new UmlRelationship(
+                    typeDecl.getNameAsString(),
+                    interfaceName,
+                    RelationshipType.IMPLEMENTATION
+            );
+            umlClass.addRelationship(rel);
+        });
+
         // Extract fields
         typeDecl.getFields().forEach(field -> extractField(field, umlClass));
 
@@ -74,6 +96,17 @@ public class ClassAnalyzer {
      */
     private UmlClass analyzeEnum(EnumDeclaration enumDecl, String packageName) {
         UmlClass umlClass = new UmlClass(enumDecl.getNameAsString(), packageName, ClassType.ENUM);
+
+        // Extract implementation relationships for enums
+        enumDecl.getImplementedTypes().forEach(implementedType -> {
+            String interfaceName = implementedType.getNameAsString();
+            UmlRelationship rel = new UmlRelationship(
+                    enumDecl.getNameAsString(),
+                    interfaceName,
+                    RelationshipType.IMPLEMENTATION
+            );
+            umlClass.addRelationship(rel);
+        });
 
         // Extract enum fields
         enumDecl.getFields().forEach(field -> extractField(field, umlClass));

@@ -12,6 +12,7 @@ public class UmlClass {
     private ClassType type;
     private List<UmlField> fields;
     private List<UmlMethod> methods;
+    private List<UmlRelationship> relationships;
 
     public UmlClass(String name, String packageName, ClassType type) {
         this.name = name;
@@ -19,6 +20,7 @@ public class UmlClass {
         this.type = type;
         this.fields = new ArrayList<>();
         this.methods = new ArrayList<>();
+        this.relationships = new ArrayList<>();
     }
 
     public String getName() {
@@ -49,23 +51,37 @@ public class UmlClass {
         methods.add(method);
     }
 
+    public List<UmlRelationship> getRelationships() {
+        return relationships;
+    }
+
+    public void addRelationship(UmlRelationship relationship) {
+        relationships.add(relationship);
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("Class: ").append(name).append("\n");
         sb.append("Package: ").append(packageName).append("\n");
-        sb.append("Type: ").append(type).append("\n\n");
+        sb.append("Type: ").append(type).append("\n");
+
+        if (!relationships.isEmpty()) {
+            sb.append("\nRelationships:\n");
+            for (UmlRelationship rel : relationships) {
+                sb.append("  ").append(rel).append("\n");
+            }
+        }
 
         if (!fields.isEmpty()) {
-            sb.append("Fields:\n");
+            sb.append("\nFields:\n");
             for (UmlField field : fields) {
                 sb.append("  ").append(field).append("\n");
             }
-            sb.append("\n");
         }
 
         if (!methods.isEmpty()) {
-            sb.append("Methods:\n");
+            sb.append("\nMethods:\n");
             for (UmlMethod method : methods) {
                 sb.append("  ").append(method).append("\n");
             }
