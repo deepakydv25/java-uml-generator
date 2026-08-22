@@ -6,7 +6,9 @@ package com.deepak.uml.model;
 public enum RelationshipType {
     // Inheritance relationships
     INHERITANCE("extends"),      // Class A extends Class B
-    IMPLEMENTATION("implements"); // Class A implements Interface B
+    IMPLEMENTATION("implements"), // Class A implements Interface B
+    ASSOCIATION("association"),
+    DEPENDENCY("uses");
 
     private final String keyword;
 

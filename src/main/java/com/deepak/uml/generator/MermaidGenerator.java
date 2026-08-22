@@ -82,18 +82,43 @@ public class MermaidGenerator implements DiagramGenerator {
     /**
      * Generates relationship lines for inheritance and implementation.
      */
-    private void generateRelationships(UmlClass umlClass, StringBuilder sb) {
+    private void generateRelationships(
+            UmlClass umlClass,
+            StringBuilder sb) {
+
         for (UmlRelationship rel : umlClass.getRelationships()) {
+
             if (rel.getType() == RelationshipType.INHERITANCE) {
-                // Inheritance: solid arrow pointing to parent
-                sb.append("    ").append(rel.getSourceClassName())
-                        .append(" --|> ").append(rel.getTargetClassName())
+
+                sb.append("    ")
+                        .append(rel.getSourceClassName())
+                        .append(" --|> ")
+                        .append(rel.getTargetClassName())
                         .append(" : extends\n");
+
             } else if (rel.getType() == RelationshipType.IMPLEMENTATION) {
-                // Implementation: dashed arrow pointing to interface
-                sb.append("    ").append(rel.getSourceClassName())
-                        .append(" ..|> ").append(rel.getTargetClassName())
+
+                sb.append("    ")
+                        .append(rel.getSourceClassName())
+                        .append(" ..|> ")
+                        .append(rel.getTargetClassName())
                         .append(" : implements\n");
+
+            } else if (rel.getType() == RelationshipType.ASSOCIATION) {
+
+                sb.append("    ")
+                        .append(rel.getSourceClassName())
+                        .append(" --> ")
+                        .append(rel.getTargetClassName())
+                        .append(" : association\n");
+
+            } else if (rel.getType() == RelationshipType.DEPENDENCY) {
+
+                sb.append("    ")
+                        .append(rel.getSourceClassName())
+                        .append(" ..> ")
+                        .append(rel.getTargetClassName())
+                        .append(" : uses\n");
             }
         }
     }

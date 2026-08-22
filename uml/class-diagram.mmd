@@ -12,7 +12,7 @@ classDiagram
         + refund(String) void
     }
     class Order {
-        - gateway: PaymentGateway
+        - gateway: PaymentProcessor
         - amount: double
         - orderId: String
         + checkout() void
@@ -33,4 +33,7 @@ classDiagram
         + setCreditCardPayment(CreditCardPayment) void
     }
     CreditCardPayment --|> PaymentProcessor : extends
+    Order --> PaymentProcessor : association
     PaymentService ..|> IPaymentGateway : implements
+    PaymentService --> CreditCardPayment : association
+    PaymentService ..> CreditCardPayment : uses

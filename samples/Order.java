@@ -1,11 +1,11 @@
 package com.example;
 
 public class Order {
-    private PaymentGateway gateway;
+    private PaymentProcessor gateway;
     private double amount;
     private String orderId;
 
-    public Order(PaymentGateway gateway) {
+    public Order(PaymentProcessor gateway) {
         this.gateway = gateway;
         this.amount = 0.0;
     }
