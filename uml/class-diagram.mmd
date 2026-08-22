@@ -1,0 +1,36 @@
+classDiagram
+    class CreditCardPayment {
+        - cardNumber: String
+        - cardHolder: String
+        + processPayment(double) void
+        + validateCard() boolean
+    }
+    class IPaymentGateway {
+        <<interface>>
+        + processPayment(double) void
+        + validateCard(String) boolean
+        + refund(String) void
+    }
+    class Order {
+        - gateway: PaymentGateway
+        - amount: double
+        - orderId: String
+        + checkout() void
+        + setAmount(double) void
+        + getAmount() double
+    }
+    class PaymentProcessor {
+        # processingFee: double
+        + processPayment(double) void
+        # calculateTotal(double) double
+    }
+    class PaymentService {
+        - creditCardPayment: CreditCardPayment
+        - serviceName: String
+        + processPayment(double) void
+        + validateCard(String) boolean
+        + refund(String) void
+        + setCreditCardPayment(CreditCardPayment) void
+    }
+    CreditCardPayment --|> PaymentProcessor : extends
+    PaymentService ..|> IPaymentGateway : implements

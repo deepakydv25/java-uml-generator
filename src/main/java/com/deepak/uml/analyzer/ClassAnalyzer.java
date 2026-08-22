@@ -54,6 +54,24 @@ public class ClassAnalyzer {
     }
 
     /**
+     * Analyzes multiple CompilationUnit ASTs and extracts all UML classes.
+     *
+     * @param compilationUnits list of JavaParser CompilationUnit ASTs
+     * @return a combined list of extracted UmlClass objects
+     */
+    public List<UmlClass> analyzeCompilationUnits(
+            List<CompilationUnit> compilationUnits) {
+
+        List<UmlClass> umlClasses = new ArrayList<>();
+
+        for (CompilationUnit compilationUnit : compilationUnits) {
+            umlClasses.addAll(analyzeCompilationUnit(compilationUnit));
+        }
+
+        return umlClasses;
+    }
+
+    /**
      * Analyzes a ClassOrInterfaceDeclaration and extracts UML information.
      */
     private UmlClass analyzeClassOrInterface(ClassOrInterfaceDeclaration typeDecl, String packageName) {
