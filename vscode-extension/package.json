@@ -1,0 +1,47 @@
+{
+  "name": "java-uml-generator-vscode",
+  "displayName": "Java UML Generator",
+  "description": "Run the Java UML Generator CLI to produce class diagrams from Java files.",
+  "version": "0.1.0",
+  "engines": {
+    "vscode": "^1.70.0"
+  },
+  "activationEvents": [
+    "onCommand:javaUmlGenerator.generateUml"
+  ],
+  "main": "./out/extension.js",
+  "files": [
+    "out/**",
+    "cli/**",
+    "README.md",
+    "package.json"
+  ],
+  "scripts": {
+    "vscode:prepublish": "npm run build",
+    "build": "tsc -p ./",
+    "watch": "tsc -w -p ./"
+  },
+  "devDependencies": {
+    "typescript": "^4.9.5",
+    "@types/node": "^18.11.18",
+    "@types/vscode": "^1.70.0"
+  },
+  "contributes": {
+    "commands": [
+      {
+        "command": "javaUmlGenerator.generateUml",
+        "title": "Generate UML (Java UML Generator)",
+        "category": "Java UML"
+      }
+    ],
+    "menus": {
+      "explorer/context": [
+        {
+          "command": "javaUmlGenerator.generateUml",
+          "when": "resourceExtname == .java",
+          "group": "java-uml@1"
+        }
+      ]
+    }
+  }
+}
