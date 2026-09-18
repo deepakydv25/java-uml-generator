@@ -34,6 +34,9 @@ build/
 
 ### VS Code ###
 .vscode/
+vscode-extension/node_modules/
+vscode-extension/out/
+vscode-extension/*.vsix
 
 ### Mac OS ###
 .DS_Store

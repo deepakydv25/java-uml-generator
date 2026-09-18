@@ -210,7 +210,7 @@ CreditCardPayment --|> PaymentProcessor
 
 ## 🔧 Technical Stack
 
-- **Language**: Java 25
+- **Language**: Java 17+
 - **Build Tool**: Maven 3.9+
 - **AST Parser**: JavaParser 3.25.9
 - **Design Patterns**:
@@ -351,7 +351,7 @@ All sample test files are in `src/samples/`:
 ```
 
 ### Build Requirements
-- Java 25 or higher
+- Java 17 or higher
 - Maven 3.9+
 - Windows 10+ (for PowerShell scripts)
 

@@ -3,6 +3,25 @@
   "displayName": "Java UML Generator",
   "description": "Run the Java UML Generator CLI to produce class diagrams from Java files.",
   "version": "0.1.0",
+  "publisher": "deepakydv25",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/deepakydv25/java-uml-generator.git",
+    "directory": "vscode-extension"
+  },
+  "bugs": {
+    "url": "https://github.com/deepakydv25/java-uml-generator/issues"
+  },
+  "keywords": [
+    "java",
+    "uml",
+    "mermaid",
+    "class diagram"
+  ],
+  "categories": [
+    "Visualization"
+  ],
   "engines": {
     "vscode": "^1.70.0"
   },
@@ -19,12 +38,14 @@
   "scripts": {
     "vscode:prepublish": "npm run build",
     "build": "tsc -p ./",
+    "package:vsix": "vsce package",
     "watch": "tsc -w -p ./"
   },
   "devDependencies": {
     "typescript": "^4.9.5",
     "@types/node": "^18.11.18",
-    "@types/vscode": "^1.70.0"
+    "@types/vscode": "^1.70.0",
+    "@vscode/vsce": "^3.6.0"
   },
   "contributes": {
     "commands": [

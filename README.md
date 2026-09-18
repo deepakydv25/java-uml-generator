@@ -27,7 +27,7 @@ A command-line tool that analyzes Java source code and automatically generates U
 ## Quick Start
 
 ### Prerequisites
-- Java 25+
+- Java 17+
 - Maven 3.9+
 - Windows (PowerShell scripts provided)
 
@@ -230,7 +230,7 @@ Display or Save to File
 ## Dependencies
 
 - **JavaParser 3.25.9**: AST parsing and analysis
-- **Java 25+**: Modern Java features
+- **Java 17+**: Supported Java runtime baseline
 
 See `pom.xml` for complete dependency list.
 
